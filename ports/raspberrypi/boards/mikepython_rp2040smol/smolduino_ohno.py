@@ -1,6 +1,7 @@
 from board import *
 import busio
 
+# Identify as Smolduino Ohno rather than RP2040smol
 board_id = "mikepython_smolduino_ohno"
 
 _I2C0 = None
@@ -9,12 +10,10 @@ _SPI0 = None
 _SPI1 = None
 _UART = None
 
-
 SDA0 = GP24
 SCL0 = GP25
 SDA1 = GP18
 SCL1 = GP19
-
 SCK0 = GP22
 MOSI0 = GP23
 MISO0 = GP20
@@ -22,17 +21,17 @@ SCK1 = GP14
 MOSI1 = GP11
 MISO1 = GP12
 CS1 = GP13
-
 RX = GP5
 TX = GP4
 
-# 5V shifted outputs
-HV_OUT_A = GP15
-HV_OUT_B = GP16
-HV_OUT_CLOCK = SCK1
-HV_OUT_DATA = MOSI1
+# Level shifted 5V output header
+GP15_5V = GP15
+GP16_5V = GP16
+SCK1_5V = SCK1
+MOSI1_5V = MOSI1
 
-CHARGE_DISABLE = GP21
+CHARGE_ENABLE = GP21
+
 
 def I2C():
     global _I2C0
@@ -56,7 +55,7 @@ def STEMMA_I2C():
     return I2C1()
 
 
-def SPI(): # 2x3 SPI header
+def SPI():  # 2x3 SPI header
     global _SPI0
 
     if not _SPI0:
@@ -81,4 +80,3 @@ def UART(baudrate=9600):
         _UART = busio.UART(TX, RX, baudrate=baudrate)
 
     return _UART
-
